@@ -1,0 +1,26 @@
+# Maintainer: X0rg
+
+pkgname=dmg2dir-git
+_gitname=dmg2dir
+pkgver=2.4.0.e6bbe9d
+pkgrel=1
+pkgdesc="A shell script which extract OS X application from .dmg file."
+arch=('any')
+url="https://github.com/X0rg/dmg2dir"
+license=('unknow')
+depends=('dmg2img' 'udisks2')
+optdepends=('darling-git: to use --run'
+	'cdrkit: to use --iso')
+provides=('dmg2dir')
+source=("git://github.com/X0rg/$_gitname.git")
+md5sums=('SKIP')
+
+pkgver() {
+  cd $_gitname
+  echo $(git tag | awk 'END {print}' | cut -d "v" -f2).$(git describe --always | sed 's|-|.|g')
+}
+
+package() {
+  cd $_gitname
+  install -Dvm755 ./dmg2dir $pkgdir/usr/bin/dmg2dir
+}
